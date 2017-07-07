@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -o errexit
+
+SAMPLE_TEXT="The quick brown fox ..."
+
+while [ ! $# -eq 0 ]
+do
+  case "$1" in
+    --help | -h)
+      cat <<EOF
+
+  Color text with ANSI escape sequences.
+
+  Usage: tinge color text
+
+    -c, --colors         list available colors
+    -h, --help           show this menu
+
+EOF
+      exit 0
+      ;;
+      -c | --colors)
+      cat <<EOF
+
+Available colors:
+
+  - black => $(tinge black "$SAMPLE_TEXT")
+  - red => $(tinge red "$SAMPLE_TEXT")
+  - green => $(tinge green "$SAMPLE_TEXT")
+  - orange => $(tinge orange "$SAMPLE_TEXT")
+  - blue => $(tinge blue "$SAMPLE_TEXT")
+  - purple => $(tinge purple "$SAMPLE_TEXT")
+  - cyan => $(tinge cyan "$SAMPLE_TEXT")
+  - light-gray => $(tinge light-gray "$SAMPLE_TEXT")
+  - dark-grey => $(tinge dark-grey "$SAMPLE_TEXT")
+  - light-red => $(tinge light-red "$SAMPLE_TEXT")
+  - light-green => $(tinge light-green "$SAMPLE_TEXT")
+  - yellow => $(tinge yellow "$SAMPLE_TEXT")
+  - light-blue => $(tinge light-blue "$SAMPLE_TEXT")
+  - light-purple => $(tinge light-purple "$SAMPLE_TEXT")
+  - light-cyan => $(tinge light-cyan "$SAMPLE_TEXT")
+  - white => $(tinge white "$SAMPLE_TEXT")
+  - no-color (removes any ANSI coloring)
+
+EOF
+      exit 0
+      ;;
+  esac
+  shift
+done
+
+ac () {
+  case $1 in
+    black)          code="0;30" ;;
+    red)            code="0;31" ;;
+    green)          code="0;32" ;;
+    orange)         code="0;33" ;;
+    blue)           code="0;34" ;;
+    purple)         code="0;35" ;;
+    cyan)           code="0;36" ;;
+    light-gray)     code="0;37" ;;
+    dark-grey)      code="1;30" ;;
+    light-red)      code="1;31" ;;
+    light-green)    code="1;32" ;;
+    yellow)         code="1;33" ;;
+    light-blue)     code="1;34" ;;
+    light-purple)   code="1;35" ;;
+    light-cyan)     code="1;36" ;;
+    white)          code="1;37" ;;
+    no-color)       code="0" ;;
+  esac
+
+  if [ ! -z "$code" ]; then
+    printf "\033[${code}m"
+  fi
+}
+
+printf "$(ac $1)$2$(ac no-color)"
