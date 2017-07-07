@@ -3,11 +3,9 @@ set -o errexit
 
 SAMPLE_TEXT="The quick brown fox ..."
 
-while [ ! $# -eq 0 ]
-do
-  case "$1" in
-    --help | -h)
-      cat <<EOF
+case "$1" in
+  --help | -h)
+    cat <<EOF
 
   Color text with ANSI escape sequences.
 
@@ -17,10 +15,10 @@ do
     -h, --help           show this menu
 
 EOF
-      exit 0
-      ;;
-      -c | --colors)
-      cat <<EOF
+    exit 0
+    ;;
+    -c | --colors)
+    cat <<EOF
 
 Available colors:
 
@@ -43,11 +41,9 @@ Available colors:
   - no-color (removes any ANSI coloring)
 
 EOF
-      exit 0
-      ;;
-  esac
-  shift
-done
+    exit 0
+    ;;
+esac
 
 ac () {
   case $1 in
